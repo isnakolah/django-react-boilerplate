@@ -33,7 +33,7 @@ const LoginForm = () => (
       } = props;
       return (
         <form onSubmit={handleSubmit}>
-          {/* <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input
             name="email"
             type="text"
@@ -42,8 +42,8 @@ const LoginForm = () => (
             onChange={handleChange}
             onBlur={handleBlur}
             className={errors.email && touched.email && "error"}
-          /> */}
-          <Input
+          />
+          {/* <Input
             label="Email"
             name="email"
             placeholder="Enter your email"
@@ -51,12 +51,12 @@ const LoginForm = () => (
             onChange={handleChange}
             onBlur={handleBlur}
             className={errors.email && touched.email && "error"}
-          />
+          /> */}
 
           {errors.email && touched.email && (
             <div className="input-feedback">{errors.email}</div>
           )}
-          {/* <label htmlFor="email">Password</label>
+          <label htmlFor="email">Password</label>
           <input
             name="password"
             type="password"
@@ -65,9 +65,9 @@ const LoginForm = () => (
             onChange={handleChange}
             onBlur={handleBlur}
             className={errors.password && touched.password && "error"}
-          /> */}
+          />
 
-          <Input
+          {/* <Input
             label="Password"
             name="password"
             type="password"
@@ -76,7 +76,7 @@ const LoginForm = () => (
             onChange={handleChange}
             onBlur={handleBlur}
             className={errors.password && touched.password && "error"}
-          />
+          /> */}
 
           {errors.password && touched.password && (
             <div className="input-feedback">{errors.password}</div>

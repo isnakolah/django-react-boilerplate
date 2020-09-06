@@ -20,14 +20,11 @@ const Input = props => {
         type={type ? type : "text"}
         name={name}
         className={className ? className : "form-control"}
-        // className={classes}
         onChange={onChange}
         value={value}
         placeholder={placeholder ? placeholder : label}
         aria-placeholder={placeholder ? placeholder : label}
         aria-label={placeholder ? placeholder : label}
-        // {...props.rest}
-        onBlur={handleBlur ? handleBlur : ""}
       />
     </div>
   );
