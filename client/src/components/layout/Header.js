@@ -17,7 +17,9 @@ const Header = ({ isAuthenticated }) => {
   const userLinks = <HeaderLinks to="/logout" label="Log Out" />;
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-info p-0">
+    <nav
+      className="navbar navbar-expand-lg navbar-light bg-info p-0"
+      style={{ height: 55 }}>
       <div className="container">
         <Link to="/" className="navbar-brand">
           <h3 className="mb-0">Home</h3>

@@ -7,8 +7,8 @@ import { authCheckState } from "../redux/actions/auth";
 import PageNotFound from "./pagenotfound/PageNotFound";
 import Home from "./home/Home";
 import PrivateRoute from "./common/PrivateRoute";
-import LoginPage from "./auth/LoginPage";
 import RegisterPage from "./auth/RegisterPage";
+import RegisterForm from "./auth/RegisterForm";
 import LoginForm from "./auth/LoginForm";
 
 const App = ({ onTryAutoSignIn }) => {
@@ -22,9 +22,8 @@ const App = ({ onTryAutoSignIn }) => {
       <div className="container pt-4">
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/loginform" component={LoginForm} />
+          <Route path="/login" component={LoginForm} />
+          <Route path="/register" component={RegisterForm} />
           <Route component={PageNotFound} />
         </Switch>
       </div>
