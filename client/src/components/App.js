@@ -13,7 +13,7 @@ import LoginFormPage from "./auth/LoginFormPage";
 const App = ({ onTryAutoSignIn }) => {
   useEffect(() => {
     onTryAutoSignIn();
-  }, []);
+  });
 
   return (
     <Router>

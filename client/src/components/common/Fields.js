@@ -1,18 +1,5 @@
 import React from "react";
 import { useField } from "formik";
-import styled from "styled-components";
-
-const getStyles = (errors, fieldName) => {
-  if (errors) {
-    return {
-      border: "1px solid red",
-    };
-  } else {
-    return {
-      border: "1px solid black",
-    };
-  }
-};
 
 export const InputField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
