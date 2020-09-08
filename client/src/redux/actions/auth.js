@@ -2,6 +2,12 @@ import axios from "axios";
 
 import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT } from "./types";
 
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
 export const authStart = () => {
   return {
     type: AUTH_START,
@@ -41,15 +47,7 @@ export const checkAuthTimeout = expirationTime => {
 export const authLogin = (username, password) => dispatch => {
   // Dispatch the auth start
   dispatch(authStart());
-
-  // Headers
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
   const body = JSON.stringify({ username, password });
-  console.log(body);
 
   axios
     .post("/api/auth/login", body, config)
@@ -64,28 +62,25 @@ export const authLogin = (username, password) => dispatch => {
     });
 };
 
-export const authSignup = (username, email, password, password2) => {
-  return dispatch => {
-    dispatch(authStart());
-    axios
-      .post("/accounts/login/registration", {
-        username,
-        email,
-        password,
-        password2,
-      })
-      .then(res => {
-        const token = res.data.key;
-        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-        localStorage.setItem("token", token);
-        localStorage.setItem("expirationDate", expirationDate);
-        dispatch(authSuccess(token));
-        checkAuthTimeout(3600);
-      })
-      .catch(err => {
-        dispatch(authError(err));
-      });
-  };
+// Register User
+export const authRegister = (username, email, password) => dispatch => {
+  dispatch(authStart());
+  const body = JSON.stringify({ username, email, password });
+  console.log(body);
+
+  axios
+    .post("/accounts/login/register", body, config)
+    .then(res => {
+      const token = res.data.key;
+      const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+      localStorage.setItem("token", token);
+      localStorage.setItem("expirationDate", expirationDate);
+      dispatch(authSuccess(token));
+      checkAuthTimeout(3600);
+    })
+    .catch(err => {
+      dispatch(authError(err));
+    });
 };
 
 export const authCheckState = () => {
