@@ -38,7 +38,7 @@ export const checkAuthTimeout = expirationTime => {
   };
 };
 
-export const authLogin = (username, password) => {
+export const lLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
     axios
@@ -55,6 +55,32 @@ export const authLogin = (username, password) => {
         dispatch(authError(err));
       });
   };
+};
+
+export const authLogin = (username, password) => dispatch => {
+  // Dispatch the auth start
+  dispatch(authStart());
+
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const body = JSON.stringify({ username, password });
+  console.log(body);
+
+  axios
+    .post("/api/auth/login", body, config)
+    .then(res => {
+      const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("expirationDate", expirationDate);
+      dispatch(authSuccess());
+    })
+    .catch(err => {
+      dispatch(authError(err));
+    });
 };
 
 export const authSignup = (username, email, password, password2) => {
