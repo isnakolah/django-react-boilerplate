@@ -4,7 +4,6 @@ import { object, string } from "yup";
 import { Link } from "react-router-dom";
 
 import "./LoginForm.css";
-import ValidatedInput from "../common/ValidatedInput";
 
 const LoginForm = () => (
   <Formik
@@ -32,6 +31,7 @@ const LoginForm = () => (
         handleBlur,
         handleSubmit,
       } = props;
+
       return (
         <form onSubmit={handleSubmit}>
           <label htmlFor="email">Email</label>
