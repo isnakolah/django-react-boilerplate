@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Input from "../common/Input";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
@@ -16,7 +15,7 @@ const SearchBar = () => {
   return (
     <div className="p-2">
       <form className="form-inline my-2 my-lg-0" onSubmit={onSubmit}>
-        <Input
+        <input
           className="form-control mr-sm-2 rounded border-white"
           type="search"
           name="search"

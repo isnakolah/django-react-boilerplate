@@ -7,7 +7,7 @@ import { authCheckState } from "../redux/actions/auth";
 import PageNotFound from "./pagenotfound/PageNotFound";
 import Home from "./home/Home";
 import PrivateRoute from "./common/PrivateRoute";
-import RegisterForm from "./auth/RegisterForm";
+import RegisterFormPage from "./auth/RegisterFormPage";
 import LoginFormPage from "./auth/LoginFormPage";
 
 const App = ({ onTryAutoSignIn }) => {
@@ -22,7 +22,7 @@ const App = ({ onTryAutoSignIn }) => {
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
           <Route path="/login" component={LoginFormPage} />
-          <Route path="/register" component={RegisterForm} />
+          <Route path="/register" component={RegisterFormPage} />
           <Route component={PageNotFound} />
         </Switch>
       </div>

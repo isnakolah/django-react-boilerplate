@@ -3,7 +3,7 @@ import { Formik } from "formik";
 import { object, string } from "yup";
 import { Link } from "react-router-dom";
 
-import "./LoginForm.css";
+// import "./LoginForm.css";
 
 const LoginForm = () => (
   <Formik
