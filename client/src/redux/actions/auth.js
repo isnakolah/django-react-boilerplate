@@ -2,12 +2,6 @@ import axios from "axios";
 
 import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT } from "./types";
 
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
-
 export const authStart = () => {
   return {
     type: AUTH_START,
@@ -102,4 +96,10 @@ export const authCheckState = () => {
       }
     }
   };
+};
+
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
 };
