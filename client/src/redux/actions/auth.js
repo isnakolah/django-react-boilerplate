@@ -65,7 +65,7 @@ export const authRegister = (username, email, password) => dispatch => {
   axios
     .post("/accounts/login/register", body, config)
     .then(res => {
-      const token = res.data.key;
+      const token = res.data.token;
       const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
       localStorage.setItem("token", token);
       localStorage.setItem("expirationDate", expirationDate);
