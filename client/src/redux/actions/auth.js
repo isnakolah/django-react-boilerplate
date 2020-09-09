@@ -63,7 +63,7 @@ export const authRegister = (username, email, password) => dispatch => {
   console.log(body);
 
   axios
-    .post("/accounts/login/register", body, config)
+    .post("/api/auth/register", body, config)
     .then(res => {
       const token = res.data.token;
       const expirationDate = new Date(new Date().getTime() + 3600 * 1000);

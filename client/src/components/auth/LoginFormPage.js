@@ -1,13 +1,18 @@
 import { Formik, Form } from "formik";
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import * as Yup from "yup";
 
 import { InputField } from "../common/Fields";
 import { authLogin } from "../../redux/actions/auth";
 
-const SignupForm = ({ authLogin }) => {
+const SignupForm = ({ authLogin, auth }) => {
+  if (auth.isLoading) {
+    return <h2>Loading...</h2>;
+  } else if (auth.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <Formik
       initialValues={{ username: "", password: "" }}
@@ -54,4 +59,8 @@ const SignupForm = ({ authLogin }) => {
   );
 };
 
-export default connect(null, { authLogin })(SignupForm);
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { authLogin })(SignupForm);
