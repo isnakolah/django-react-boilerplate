@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { InputField } from "../common/Fields";
 import { authLogin } from "../../redux/actions/auth";
 
-const SignupForm = ({ authLogin, auth }) => {
+const LoginFormPage = ({ authLogin, auth }) => {
   if (auth.isLoading) {
     return <h2>Loading...</h2>;
   } else if (auth.isAuthenticated) {
@@ -63,4 +63,4 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { authLogin })(SignupForm);
+export default connect(mapStateToProps, { authLogin })(LoginFormPage);

@@ -7,7 +7,12 @@ import * as Yup from "yup";
 import { InputField } from "../common/Fields";
 import { authRegister } from "../../redux/actions/auth";
 
-const SignupForm = ({ authRegister }) => {
+const RegisterFormPage = ({ authRegister }) => {
+  if (auth.isLoading) {
+    return <h2>Loading...</h2>;
+  } else if (auth.isAuthenticated) {
+    return <Redirect to="/" />;
+  }
   return (
     <Formik
       initialValues={{ username: "", email: "", password: "", password2: "" }}
@@ -70,4 +75,4 @@ const SignupForm = ({ authRegister }) => {
   );
 };
 
-export default connect(null, { authRegister })(SignupForm);
+export default connect(null, { authRegister })(RegisterFormPage);
