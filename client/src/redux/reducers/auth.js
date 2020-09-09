@@ -8,34 +8,39 @@ import {
 import { updateObject } from "../store/utility.js";
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
   error: null,
   loading: false,
+  isAuthenticated: localStorage.getItem("token") ? true : false,
 };
 
-const authStart = (state, action) => {
+const authStart = state => {
   return updateObject(state, {
     error: null,
     loading: true,
   });
 };
 
-const authSuccess = (state, action) => {
+const authSuccess = state => {
   return updateObject(state, {
-    token: action.token,
+    token: localStorage.getItem("token"),
     error: null,
     loading: false,
+    isAuthenticated: true,
   });
 };
 const authError = (state, action) => {
   return updateObject(state, {
     error: action.error,
     loading: false,
+    isAuthenticated: false,
   });
 };
-const authLogout = (state, action) => {
+const authLogout = state => {
+  localStorage.removeItem("token");
   return updateObject(state, {
     token: null,
+    isAuthenticated: false,
   });
 };
 

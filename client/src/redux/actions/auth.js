@@ -8,7 +8,7 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = token => {
+export const authSuccess = (token, isAuthenticated) => {
   return {
     type: AUTH_SUCCESS,
     token: token,
@@ -24,6 +24,7 @@ export const authError = error => {
 
 export const logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("isAuthenticated");
   localStorage.removeItem("expirationDate");
   return {
     type: AUTH_LOGOUT,
@@ -48,6 +49,7 @@ export const authLogin = (username, password) => dispatch => {
     .then(res => {
       const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("expirationDate", expirationDate);
       dispatch(authSuccess());
     })
@@ -68,6 +70,7 @@ export const authRegister = (username, email, password) => dispatch => {
       const token = res.data.token;
       const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
       localStorage.setItem("token", token);
+      localStorage.setItem("isAuthenticated", true);
       localStorage.setItem("expirationDate", expirationDate);
       dispatch(authSuccess(token));
       checkAuthTimeout(3600);
