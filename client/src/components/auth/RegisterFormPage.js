@@ -1,13 +1,13 @@
 import { Formik, Form } from "formik";
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import * as Yup from "yup";
 
 import { InputField } from "../common/Fields";
 import { authRegister } from "../../redux/actions/auth";
 
-const RegisterFormPage = ({ authRegister }) => {
+const RegisterFormPage = ({ authRegister, auth }) => {
   if (auth.isLoading) {
     return <h2>Loading...</h2>;
   } else if (auth.isAuthenticated) {
@@ -75,4 +75,8 @@ const RegisterFormPage = ({ authRegister }) => {
   );
 };
 
-export default connect(null, { authRegister })(RegisterFormPage);
+const mapStateToProps = state => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { authRegister })(RegisterFormPage);
