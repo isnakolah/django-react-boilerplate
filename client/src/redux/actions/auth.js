@@ -2,16 +2,44 @@ import axios from "axios";
 
 import { AUTH_START, AUTH_SUCCESS, AUTH_ERROR, AUTH_LOGOUT } from "./types";
 
+const authSuccessResponse = (res, dispatch) => {
+  const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+  localStorage.setItem("token", res.data.token);
+  localStorage.setItem("expirationDate", expirationDate);
+  dispatch(authSuccess(res));
+  checkAuthTimeout(3600);
+};
+
+export const tokenConfig = getState => {
+  const token = getState().auth.token;
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  if (token) {
+    config.headers["Authorization"] = `Token ${token}`;
+  }
+  return config;
+};
+
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+};
+
 export const authStart = () => {
   return {
     type: AUTH_START,
   };
 };
 
-export const authSuccess = (token, isAuthenticated) => {
+export const authSuccess = res => {
   return {
     type: AUTH_SUCCESS,
-    token: token,
+    token: res.data.token,
+    payload: res.data,
   };
 };
 
@@ -46,10 +74,7 @@ export const authLogin = (username, password) => dispatch => {
   axios
     .post("/api/auth/login", body, config)
     .then(res => {
-      const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("expirationDate", expirationDate);
-      dispatch(authSuccess());
+      authSuccessResponse(res, dispatch);
     })
     .catch(err => {
       dispatch(authError(err));
@@ -65,12 +90,7 @@ export const authRegister = (username, email, password) => dispatch => {
   axios
     .post("/api/auth/register", body, config)
     .then(res => {
-      const token = res.data.token;
-      const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-      localStorage.setItem("token", token);
-      localStorage.setItem("expirationDate", expirationDate);
-      dispatch(authSuccess(token));
-      checkAuthTimeout(3600);
+      authSuccessResponse(res, dispatch);
     })
     .catch(err => {
       dispatch(authError(err));
@@ -83,48 +103,21 @@ export const authLogout = () => (dispatch, getState) => {
   });
 };
 
-export const authCheckState = () => {
-  return dispatch => {
-    const token = localStorage.getItem("token");
-    if (token === undefined) {
+export const authCheckState = () => (dispatch, getState) => {
+  const token = localStorage.getItem("token");
+  if (token === undefined) {
+    dispatch(authLogout());
+  } else {
+    const expirationDate = new Date(localStorage.getItem("expirationDate"));
+    if (expirationDate <= new Date()) {
       dispatch(authLogout());
     } else {
-      const expirationDate = new Date(localStorage.getItem("expirationDate"));
-      if (expirationDate <= new Date()) {
-        dispatch(authLogout());
-      } else {
-        dispatch(authSuccess(token));
-        dispatch(
-          checkAuthTimeout(
-            (expirationDate.getTime() - new Date().getTime()) / 1000
-          )
-        );
-      }
+      dispatch(authSuccess(token));
+      dispatch(
+        checkAuthTimeout(
+          (expirationDate.getTime() - new Date().getTime()) / 1000
+        )
+      );
     }
-  };
-};
-
-export const tokenConfig = getState => {
-  // Get token from state
-  const token = getState().auth.token;
-
-  // Headers
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  // If token, add to headers config
-
-  if (token) {
-    config.headers["Authorization"] = `Token ${token}`;
   }
-  return config;
-};
-
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-  },
 };
