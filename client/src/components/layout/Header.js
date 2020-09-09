@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 
 import SearchBar from "./SearchBar";
 import HeaderLinks from "../common/HeaderLinks";
-import { logout } from "../../redux/actions/auth";
+import { authLogout } from "../../redux/actions/auth";
 
-const Header = ({ isAuthenticated, logout }) => {
+const Header = ({ isAuthenticated, authLogout }) => {
   const guestLinks = (
     <>
       <HeaderLinks to="/login" label="Login" />
@@ -19,7 +19,7 @@ const Header = ({ isAuthenticated, logout }) => {
     <button
       className="btn btn-danger btn-sm"
       onClick={() => {
-        logout();
+        authLogout();
       }}>
       Logout
     </button>
@@ -63,4 +63,4 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { logout })(Header);
+export default connect(mapStateToProps, { authLogout })(Header);

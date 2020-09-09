@@ -33,7 +33,7 @@ export const logout = () => {
 export const checkAuthTimeout = expirationTime => {
   return dispatch => {
     setTimeout(() => {
-      dispatch(logout());
+      dispatch(authLogout());
     }, expirationTime * 1000);
   };
 };
@@ -77,15 +77,21 @@ export const authRegister = (username, email, password) => dispatch => {
     });
 };
 
+export const authLogout = () => (dispatch, getState) => {
+  axios.post("/api/auth/logout/", null, tokenConfig(getState)).then(res => {
+    dispatch(logout());
+  });
+};
+
 export const authCheckState = () => {
   return dispatch => {
     const token = localStorage.getItem("token");
     if (token === undefined) {
-      dispatch(logout());
+      dispatch(authLogout());
     } else {
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
       if (expirationDate <= new Date()) {
-        dispatch(logout());
+        dispatch(authLogout());
       } else {
         dispatch(authSuccess(token));
         dispatch(
@@ -96,6 +102,25 @@ export const authCheckState = () => {
       }
     }
   };
+};
+
+export const tokenConfig = getState => {
+  // Get token from state
+  const token = getState().auth.token;
+
+  // Headers
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  // If token, add to headers config
+
+  if (token) {
+    config.headers["Authorization"] = `Token ${token}`;
+  }
+  return config;
 };
 
 const config = {
