@@ -23,7 +23,7 @@ export const authError = error => {
 };
 
 export const logout = () => {
-  localStorage.removeItem("user");
+  localStorage.removeItem("token");
   localStorage.removeItem("expirationDate");
   return {
     type: AUTH_LOGOUT,
